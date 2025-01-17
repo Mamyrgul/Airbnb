@@ -2,9 +2,9 @@ package java16.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+
 import java.util.List;
+
 @Entity
 @Table(name = "agencies")
 @NoArgsConstructor
@@ -17,12 +17,25 @@ public class Agency extends BaseEntity {
     private String name;
     private String phoneNumber;
 
-    @OneToOne(mappedBy = "agency", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     @OneToMany(mappedBy = "agency", cascade = CascadeType.REMOVE)
     private List<Rent_Info> rentInfos;
 
-    @ManyToMany(mappedBy = "agencies")
+    @ManyToMany
     private List<Owner> owners;
+
+    public Agency(String name, String phoneNumber) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+
+    public Agency(String name, String phoneNumber, Address address, List<Rent_Info> rentInfos) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.rentInfos = rentInfos;
+    }
 }

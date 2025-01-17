@@ -21,7 +21,7 @@ public class Owner extends BaseEntity{
     private String email;
     private LocalDate birthDate;
     private Gender gender;
-    @ManyToMany(mappedBy = "owners")
+   @ManyToMany(mappedBy = "owners")
     private List<Agency> agencies;
     @OneToMany(mappedBy = "owner")
     private List<House> houses;

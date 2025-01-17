@@ -7,7 +7,7 @@ import java.util.List;
 public interface AgencyDao {
     String createAgency(Agency agency);
     boolean updateAgency(Agency agency);
-    void deleteAgency(Agency agency);
+    void deleteAgency(Long id);
     Agency getAgencyById(Long id,String agency);
     List<Agency> getAllAgency();
 

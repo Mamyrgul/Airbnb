@@ -27,21 +27,67 @@ public class AgencyDaoImpl implements AgencyDao {
 
     @Override
     public boolean updateAgency(Agency agency) {
-        return false;
+        try {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+            entityManager.merge(agency);
+            entityManager.getTransaction().commit();
+            entityManager.close();
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void deleteAgency(Long agencyId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            Agency agency = entityManager.find(Agency.class, agencyId);
+
+            if (agency != null) {
+                if (agency.getAddress() != null) {
+                    entityManager.remove(agency.getAddress());
+                }
+                if (!agency.getRentInfos().isEmpty()) {
+                    agency.getRentInfos().forEach(entityManager::remove);
+                }
+                entityManager.remove(agency);
+            } else {
+                System.out.println("Agency с ID " + agencyId + " не найдено.");
+            }
+
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
     }
 
-    @Override
-    public void deleteAgency(Agency agency) {
-
-    }
 
     @Override
     public Agency getAgencyById(Long id, String agency) {
-        return null;
+        try {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+            Agency agency1 = entityManager.find(Agency.class, id);
+            entityManager.getTransaction().commit();
+            entityManager.close();
+            return agency1;
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public List<Agency> getAllAgency() {
-        return null;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        List<Agency> agencies = entityManager.createQuery("from Agency").getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return agencies;
     }
+
 }

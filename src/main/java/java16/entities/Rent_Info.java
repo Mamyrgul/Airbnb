@@ -17,7 +17,7 @@ public class Rent_Info extends BaseEntity {
     private LocalDate checkOut;
     @ManyToOne
     private Customer customer;
-    @ManyToOne
+     @ManyToOne
     private Owner owner;
     @OneToOne
     private House house;

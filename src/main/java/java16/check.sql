@@ -1,0 +1,1 @@
+alter table agencies drop column phone_number;

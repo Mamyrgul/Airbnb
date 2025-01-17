@@ -3,8 +3,13 @@ package java16;
 import java16.config.HibernateConfig;
 import java16.entities.Address;
 import java16.entities.Agency;
+import java16.service.AddressService;
 import java16.service.AgencyService;
+import java16.service.serviceImpl.AddressServiceImpl;
 import java16.service.serviceImpl.AgencyServiceImpl;
+
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Hello world!
@@ -13,8 +18,9 @@ import java16.service.serviceImpl.AgencyServiceImpl;
 public class App 
 {
     public static void main( String[] args ) {
-        HibernateConfig.getEntityManagerFactory();
-       /* Agency agency = new Agency();
+       HibernateConfig.getEntityManagerFactory();
+
+        /*   Agency agency = new Agency();
         agency.setName("Dream Homes");
         agency.setPhoneNumber("+123456789");
 
@@ -28,9 +34,24 @@ public class App
         agency.setAddress(address);
         AgencyService agencyService = new AgencyServiceImpl();
 // Сохраняем агентство, адрес сохраняется автоматически
-       agencyService.createAgency(agency);
+       agencyService.createAgency(agency);*/
 
-        */
+      /*  AgencyService agencyService = new AgencyServiceImpl();
+        AddressService addressService = new AddressServiceImpl();
+
+        List<String> addressesWithAgencies = addressService.getAllAddress();
+
+        for (String details : addressesWithAgencies) {
+            System.out.println(details);
+        }
+       */
+/*
+     AddressService addressService = new AddressServiceImpl();
+     addressService.countAgencyByCity("hui");
+ */
+    //  AddressService addressService = new AddressServiceImpl();
+       // System.out.println(addressService.groupByRegion());
+
 
 
     }

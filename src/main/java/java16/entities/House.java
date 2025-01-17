@@ -26,7 +26,8 @@ public class House extends BaseEntity {
 
     @ManyToOne
     private Owner owner;
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     @OneToMany(mappedBy = "house", cascade = CascadeType.REMOVE)
