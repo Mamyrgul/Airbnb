@@ -1,1 +1,2 @@
-alter table agencies drop column phone_number;
+
+ALTER TABLE owners ALTER COLUMN gender TYPE VARCHAR;

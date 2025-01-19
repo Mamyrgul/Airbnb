@@ -5,10 +5,12 @@ import java16.entities.Agency;
 import java.util.List;
 
 public interface AgencyDao {
-    String createAgency(Agency agency);
-    boolean updateAgency(Agency agency);
+    void createAgency(String agencyName, String agPhoneNumber);
+    void createAgencyWithAddress(String agencyName, String agPhoneNumber,
+                                 String city, String region , String street);
+    boolean updateAgency(Long id,Agency agency);
     void deleteAgency(Long id);
-    Agency getAgencyById(Long id,String agency);
+    Agency getAgencyById(Long id);
     List<Agency> getAllAgency();
 
 }

@@ -18,13 +18,35 @@ import java.util.List;
 public class Owner extends BaseEntity{
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private LocalDate birthDate;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
    @ManyToMany(mappedBy = "owners")
     private List<Agency> agencies;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade ={ CascadeType.PERSIST,CascadeType.REMOVE})
     private List<House> houses;
     @OneToMany(mappedBy = "owner")
     private List<Rent_Info> rent_Info;
+
+    public Owner(String firstName, String lastName, String email, LocalDate birthDate, Gender gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.gender = gender;
+    }
+
+    public Owner(String firstName, String lastName, String email,
+                 LocalDate birthDate, Gender gender,
+                 List<House> houses) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.houses = houses;
+    }
+
 }

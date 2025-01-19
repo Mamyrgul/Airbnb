@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static javax.swing.text.html.HTML.Tag.SELECT;
 
 public class AddressDaoImpl implements AddressDao {
     EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFactory();
@@ -37,10 +36,11 @@ public class AddressDaoImpl implements AddressDao {
                 String agPhoneNumber = (String) result[4];
                 addressDetails.add("Address: " + city + ", " + region + ", " + street +
                                    " | Agency: " + agencyName + agPhoneNumber);
+                entityManager.close();
             }
             return addressDetails;
-        } finally {
-            entityManager.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

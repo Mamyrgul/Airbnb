@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import java16.config.HibernateConfig;
 import java16.dao.AgencyDao;
+import java16.entities.Address;
 import java16.entities.Agency;
 
 import java.util.List;
@@ -12,32 +13,80 @@ public class AgencyDaoImpl implements AgencyDao {
     EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFactory();
 
     @Override
-    public String createAgency(Agency agency) {
+    public void createAgency(String agencyName, String agPhoneNumber) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
+            Agency agency = new Agency();
+            agency.setName(agencyName);
+            agency.setPhoneNumber(agPhoneNumber);
             entityManager.persist(agency);
             entityManager.getTransaction().commit();
-            entityManager.close();
-            return "Success";
-        }catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    @Override
-    public boolean updateAgency(Agency agency) {
-        try {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            entityManager.getTransaction().begin();
-            entityManager.merge(agency);
-            entityManager.getTransaction().commit();
-            entityManager.close();
-            return true;
+            System.out.println("Agency created");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+    public void createAgencyWithAddress(String agencyName, String agPhoneNumber, String city, String region, String street) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+
+            Address address = new Address();
+            address.setCity(city);
+            address.setRegion(region);
+            address.setStreet(street);
+            entityManager.persist(address);
+
+            Agency agency = new Agency();
+            agency.setName(agencyName);
+            agency.setPhoneNumber(agPhoneNumber);
+            agency.setAddress(address);
+
+            entityManager.persist(agency);
+
+            entityManager.getTransaction().commit();
+            System.out.println("Agency successfully created.");
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new RuntimeException("Error creating agency: " + e.getMessage());
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public boolean updateAgency(Long id, Agency agency) {
+        EntityManager entityManager = null;
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+
+            Agency existingAgency = entityManager.find(Agency.class, id);
+
+            if (existingAgency == null) {
+                return false;
+            }
+
+            existingAgency.setName(agency.getName());
+            existingAgency.setPhoneNumber(agency.getPhoneNumber());
+            entityManager.getTransaction().commit();
+
+            return true;
+        } catch (Exception e) {
+            if (entityManager != null && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new RuntimeException("Failed to update agency", e);
+        } finally {
+            if (entityManager != null) {
+                entityManager.close();
+            }
+        }
+    }
+
+
     public void deleteAgency(Long agencyId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
@@ -67,7 +116,7 @@ public class AgencyDaoImpl implements AgencyDao {
 
 
     @Override
-    public Agency getAgencyById(Long id, String agency) {
+    public Agency getAgencyById(Long id) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @ToString
 @SequenceGenerator(name = "id_gen", sequenceName = "rent_info_gen", allocationSize = 1)
 public class Rent_Info extends BaseEntity {
+
     private LocalDate checkIn;
     private LocalDate checkOut;
     @ManyToOne
@@ -23,4 +24,9 @@ public class Rent_Info extends BaseEntity {
     private House house;
     @ManyToOne
     private Agency agency;
+
+    public Rent_Info(LocalDate checkIn, LocalDate checkOut) {
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+    }
 }

@@ -1,5 +1,6 @@
 package java16.service.serviceImpl;
 
+import jakarta.persistence.EntityManager;
 import java16.dao.AgencyDao;
 import java16.dao.daoImpl.AgencyDaoImpl;
 import java16.entities.Agency;
@@ -10,28 +11,34 @@ import java.util.List;
 public class AgencyServiceImpl implements AgencyService {
     AgencyDao agencyDao = new AgencyDaoImpl();
 
+
     @Override
-    public String createAgency(Agency agency) {
-        return agencyDao.createAgency(agency);
+    public boolean updateAgency(Long id,Agency agency) {
+        return agencyDao.updateAgency(id,agency);
     }
 
     @Override
-    public boolean updateAgency(Agency agency) {
-        return false;
+    public void deleteAgency(Long id) {
+      agencyDao.deleteAgency(id);
     }
 
     @Override
-    public void deleteAgency(Agency agency) {
-
-    }
-
-    @Override
-    public Agency getAgencyById(Long id, String agency) {
-        return null;
+    public Agency getAgencyById(Long id) {
+        return agencyDao.getAgencyById(id);
     }
 
     @Override
     public List<Agency> getAllAgency() {
-        return null;
+        return agencyDao.getAllAgency();
+    }
+
+    @Override
+    public void createAgencyWithAddress(String agencyName, String agPhoneNumber, String city, String region, String street) {
+        agencyDao.createAgencyWithAddress(agencyName,agPhoneNumber,city,region,street);
+    }
+
+    @Override
+    public void createAgency(String agencyName, String agPhoneNumber) {
+        agencyDao.createAgency(agencyName,agPhoneNumber);
     }
 }

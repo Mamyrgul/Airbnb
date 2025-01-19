@@ -1,5 +1,11 @@
 package java16.dao;
 
-public interface Rent_infoDao {
+import java16.entities.Rent_Info;
 
+import java.time.LocalDate;
+import java.util.List;
+
+public interface Rent_infoDao {
+    List<Rent_Info> getRentInfosByDateRange(LocalDate startDate, LocalDate endDate);
+    long getCurrentRentedHousesByAgency(Long agencyId);
 }

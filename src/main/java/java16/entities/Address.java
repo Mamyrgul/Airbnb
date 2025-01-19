@@ -29,4 +29,5 @@ public class Address extends BaseEntity {
         this.street = street;
         this.agency = agency;
     }
+
 }

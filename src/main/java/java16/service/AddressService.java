@@ -12,5 +12,4 @@ public interface AddressService {
     Address getById(Long id);
     void countAgencyByCity(String city);
     Map<String, List<Agency>> groupByRegion();
-
 }

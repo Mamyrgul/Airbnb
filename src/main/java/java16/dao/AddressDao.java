@@ -10,7 +10,6 @@ public interface AddressDao {
    List<String> getAllAddress();
    String update(Long id,Address address);
    Address getById(Long id);
-   //Колдонуучу бир шаардын атын жазса ошол шаарда канча агентсво бар экенин эсептеп чыгарсын
    void countAgencyByCity(String city);
    Map<String, List<Agency>> groupByRegion();
 }
