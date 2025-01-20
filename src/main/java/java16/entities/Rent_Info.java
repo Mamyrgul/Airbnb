@@ -12,8 +12,11 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @SequenceGenerator(name = "id_gen", sequenceName = "rent_info_gen", allocationSize = 1)
-public class Rent_Info extends BaseEntity {
-
+public class Rent_Info {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "id_gen")
+    @SequenceGenerator(name = "id_gen", sequenceName = "rent_gen", allocationSize = 1)
+    private Long id;
     private LocalDate checkIn;
     private LocalDate checkOut;
     @ManyToOne

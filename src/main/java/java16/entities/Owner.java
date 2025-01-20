@@ -15,7 +15,11 @@ import java.util.List;
 @Setter
 @ToString
 @SequenceGenerator(name = "id_gen",sequenceName = "owner_gen",allocationSize = 1)
-public class Owner extends BaseEntity{
+public class Owner{
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "id_gen")
+    @SequenceGenerator(name = "id_gen", sequenceName = "owner_gen", allocationSize = 1)
+    public  Long id;
     private String firstName;
     private String lastName;
     @Column(unique = true)

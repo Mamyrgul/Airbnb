@@ -20,13 +20,13 @@ public class Agency{
     private String name;
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Address address;
 
-    @OneToMany(mappedBy = "agency", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "agency",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Rent_Info> rentInfos;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Owner> owners;
 
     public Agency(String name, String phoneNumber, Address address) {

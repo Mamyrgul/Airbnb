@@ -191,7 +191,7 @@ public class App {
 
                     System.out.print("Введите ID адреса: ");
                     addressId = scannerLong.nextLong();
-                    addressService.getById(addressId);
+                    System.out.println(addressService.getById(addressId));
                     break;
                 case 11:
                     System.out.println("Введите имя клиента: ");
@@ -410,11 +410,11 @@ public class App {
                     birthDateString = scannerStr.nextLine();
                     birthDate = LocalDate.parse(birthDateString);
 
-                    System.out.println("Введите пол владельца (MALE/FEMALE/OTHER): ");
+                    System.out.println("Введите пол владельца (MALE/FEMALE): ");
                     genderString = scannerStr.nextLine();
                     gender = Gender.valueOf(genderString.toUpperCase());
 
-                    System.out.println("Введите тип дома (HOUSE/CONDO/APPARTMENT): ");
+                    System.out.println("Введите тип дома (APARTMENT, HOUSE, VILLA, STUDIO,COTTAGE): ");
                     String houseTypeString = scannerStr.nextLine();
                     HouseType houseType = HouseType.valueOf(houseTypeString.toUpperCase());
 
@@ -554,7 +554,7 @@ public class App {
                     System.out.print("Введите ID владельца: ");
                     Long ownerid = scannerLong.nextLong();
 
-                    System.out.println("Введите тип дома (HOUSE/CONDO/APPARTMENT): ");
+                    System.out.println("Введите тип дома (APARTMENT, HOUSE, VILLA, STUDIO,COTTAGE): ");
                     houseTypeString = scannerStr.nextLine();
                     houseType = HouseType.valueOf(houseTypeString.toUpperCase());
 

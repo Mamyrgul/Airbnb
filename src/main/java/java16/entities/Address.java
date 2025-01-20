@@ -9,9 +9,12 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @SequenceGenerator(name = "id_gen", sequenceName = "address_gen", allocationSize = 1)
-public class Address extends BaseEntity {
+public class Address  {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "id_gen")
+    @SequenceGenerator(name = "id_gen", sequenceName = "address_gen", allocationSize = 1)
+    private Long id;
     private String city;
     private String region;
     @Column(unique = true)
@@ -30,4 +33,10 @@ public class Address extends BaseEntity {
         this.agency = agency;
     }
 
+    public Address(Long id, String city, String region, String street) {
+        this.id = id;
+        this.city = city;
+        this.region = region;
+        this.street = street;
+    }
 }
