@@ -12,21 +12,21 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Agency{
+public class Agency {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "id_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_gen")
     @SequenceGenerator(name = "id_gen", sequenceName = "agency_gen", allocationSize = 1)
     private Long id;
     private String name;
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
 
-    @OneToMany(mappedBy = "agency",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "agency", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
     private List<Rent_Info> rentInfos;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Owner> owners;
 
     public Agency(String name, String phoneNumber, Address address) {

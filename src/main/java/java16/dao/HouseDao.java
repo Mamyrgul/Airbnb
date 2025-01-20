@@ -7,7 +7,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface HouseDao {
-    String createHouse(House house);
+    String createHouse(Long addressId, HouseType houseType,
+                       int price,
+                       double rating,
+                       String description,
+                       int room,
+                       boolean furniture);
 
     String updateHouse(Long id, House house);
 
@@ -21,8 +26,12 @@ public interface HouseDao {
                                  int price, double rating, String description,
                                  int room,
                                  boolean furniture);
+
     List<House> getHousesByRegion(String region);
+
     List<House> getHousesByAgency(Long agencyId);
+
     List<House> getHousesByOwner(Long ownerId);
+
     List<House> getHousesByRentInfo(LocalDate checkInDate, LocalDate checkOutDate);
 }

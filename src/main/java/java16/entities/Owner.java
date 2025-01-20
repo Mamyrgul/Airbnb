@@ -27,11 +27,11 @@ public class Owner{
     private LocalDate birthDate;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-   @ManyToMany(mappedBy = "owners")
+   @ManyToMany(mappedBy = "owners",cascade = CascadeType.PERSIST)
     private List<Agency> agencies;
     @OneToMany(mappedBy = "owner", cascade ={ CascadeType.PERSIST,CascadeType.REMOVE})
     private List<House> houses;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
     private List<Rent_Info> rent_Info;
 
     public Owner(String firstName, String lastName, String email, LocalDate birthDate, Gender gender) {

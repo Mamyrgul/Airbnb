@@ -11,20 +11,50 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class HouseDaoImpl implements HouseDao {
-EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFactory();
+    EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFactory();
 
     @Override
-    public String createHouse(House house) {
+    public String createHouse(Long addressId, HouseType houseType,
+                              int price,
+                              double rating,
+                              String description,
+                              int room,
+                              boolean furniture) {
+        EntityManager entityManager = null;
         try {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
+
+            Address address = entityManager.find(Address.class, addressId);
+            if (address == null) {
+                throw new RuntimeException("Address with ID " + addressId + " not found");
+            }
+            House house = new House();
+            house.setHouseType(houseType);
+            house.setPrice(price);
+            house.setRating(rating);
+            house.setDescription(description);
+            house.setRoom(room);
+            house.setFurniture(furniture);
+
+            house.setAddress(address);
+
             entityManager.persist(house);
+
             entityManager.getTransaction().commit();
-            return "success";
+            return "House successfully created with Address ID: " + addressId;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            if (entityManager != null && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error while creating house: " + e.getMessage(), e);
+        } finally {
+            if (entityManager != null) {
+                entityManager.close();
+            }
         }
     }
+
 
     @Override
     public String updateHouse(Long id, House house) {
@@ -38,6 +68,7 @@ EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFact
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public String deleteHouse(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -128,6 +159,7 @@ EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFact
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public List<House> getHousesByRegion(String region) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -161,7 +193,6 @@ EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFact
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
-
             Agency agency = entityManager.find(Agency.class, agencyId);
             if (agency == null) {
                 throw new RuntimeException("Agency not found with ID: " + agencyId);
@@ -187,6 +218,7 @@ EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFact
             entityManager.close();
         }
     }
+
     @Override
     public List<House> getHousesByOwner(Long ownerId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -214,6 +246,7 @@ EntityManagerFactory entityManagerFactory = HibernateConfig.getEntityManagerFact
             entityManager.close();
         }
     }
+
     @Override
     public List<House> getHousesByRentInfo(LocalDate checkInDate, LocalDate checkOutDate) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();

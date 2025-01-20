@@ -245,7 +245,7 @@ public class App {
                     birthDateString = scannerStr.nextLine();
                     birthDate = LocalDate.parse(birthDateString);
 
-                    System.out.println("Введите пол клиента (MALE/FEMALE/OTHER): ");
+                    System.out.println("Введите пол клиента (MALE/FEMALE): ");
                     genderString = scannerStr.nextLine();
                     gender = Gender.valueOf(genderString.toUpperCase());
 
@@ -518,37 +518,42 @@ public class App {
                     }
                     break;
                 case 24:
-                    System.out.println("Введите тип дома (HOUSE/CONDO/APPARTMENT): ");
-                    String houseTypeStringg = scannerStr.nextLine();
-                    HouseType houseTypee = HouseType.valueOf(houseTypeStringg.toUpperCase());
+                    try {
+                        System.out.println("Введите ID существующего адреса: ");
+                        Long addressIdd = scannerLong.nextLong();
 
-                    System.out.println("Введите цену дома: ");
-                    int pricee = scannerInt.nextInt();
+                        scannerStr.nextLine();
 
-                    System.out.println("Введите рейтинг дома: ");
-                    double ratingg = scannerInt.nextDouble();
+                        System.out.println("Введите тип дома (HOUSE/CONDO/APARTMENT): ");
+                        String houseTypeStringg = scannerStr.nextLine();
+                        HouseType houseTypee = HouseType.valueOf(houseTypeStringg.toUpperCase());
 
-                    scannerStr.nextLine();
-                    System.out.println("Введите описание дома: ");
-                    String descriptionn = scannerStr.nextLine();
+                        System.out.println("Введите цену дома: ");
+                        int pricee = scannerInt.nextInt();
 
-                    System.out.println("Введите количество комнат: ");
-                    int roomm = scannerInt.nextInt();
+                        System.out.println("Введите рейтинг дома: ");
+                        double ratingg = scannerInt.nextDouble();
 
-                    System.out.println("Есть ли мебель? (true/false): ");
-                    boolean furnituree = scannerInt.nextBoolean();
+                        scannerStr.nextLine();
 
-                    House newHouse = new House();
-                    newHouse.setHouseType(houseTypee);
-                    newHouse.setPrice(pricee);
-                    newHouse.setRating(ratingg);
-                    newHouse.setDescription(descriptionn);
-                    newHouse.setRoom(roomm);
-                    newHouse.setFurniture(furnituree);
+                        System.out.println("Введите описание дома: ");
+                        String descriptionn = scannerStr.nextLine();
 
-                    houseService.createHouse(newHouse);
-                    System.out.println("Дом успешно создан.");
+                        System.out.println("Введите количество комнат: ");
+                        int roomm = scannerInt.nextInt();
+
+                        System.out.println("Есть ли мебель? (true/false): ");
+                        boolean furnituree = scannerInt.nextBoolean();
+
+                        String resultt = houseService.createHouse(addressIdd, houseTypee, pricee, ratingg, descriptionn, roomm, furnituree);
+                        System.out.println(resultt);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Ошибка: Неверный ввод данных. Пожалуйста, проверьте тип дома или формат данных.");
+                    } catch (Exception e) {
+                        System.out.println("Ошибка: " + e.getMessage());
+                    }
                     break;
+
 
                 case 25:
                     System.out.print("Введите ID владельца: ");

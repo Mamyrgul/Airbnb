@@ -7,8 +7,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface HouseService {
-    String createHouse(House house);
-
+    String createHouse(Long addressId, HouseType houseType,
+                       int price,
+                       double rating,
+                       String description,
+                       int room,
+                       boolean furniture);
     String updateHouse(Long id, House house);
 
     String deleteHouse(Long id);

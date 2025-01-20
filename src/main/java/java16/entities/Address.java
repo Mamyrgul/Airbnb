@@ -20,7 +20,7 @@ public class Address  {
     @Column(unique = true)
     private String street;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address",cascade = CascadeType.ALL)
     private Agency agency;
 
     @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)

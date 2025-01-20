@@ -12,9 +12,10 @@ import java.util.List;
 public class HouseServiceImpl implements HouseService {
     HouseDao houseDao = new HouseDaoImpl();
 
+
     @Override
-    public String createHouse(House house) {
-        return houseDao.createHouse(house);
+    public String createHouse(Long addressId, HouseType houseType, int price, double rating, String description, int room, boolean furniture) {
+        return houseDao.createHouse(addressId, houseType, price, rating, description, room, furniture);
     }
 
     @Override

@@ -19,13 +19,13 @@ public class Rent_Info {
     private Long id;
     private LocalDate checkIn;
     private LocalDate checkOut;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Customer customer;
-     @ManyToOne
+     @ManyToOne(cascade = CascadeType.ALL)
     private Owner owner;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private House house;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Agency agency;
 
     public Rent_Info(LocalDate checkIn, LocalDate checkOut) {

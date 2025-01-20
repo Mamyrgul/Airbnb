@@ -37,6 +37,7 @@ public class AgencyDaoImpl implements AgencyDao {
             address.setCity(city);
             address.setRegion(region);
             address.setStreet(street);
+
             entityManager.persist(address);
 
             Agency agency = new Agency();
