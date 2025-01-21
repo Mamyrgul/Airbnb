@@ -201,11 +201,8 @@ public class OwnerDaoImpl implements OwnerDao {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
-
             List<Owner> owners = entityManager.createQuery("SELECT o FROM Owner o", Owner.class).getResultList();
-
             Map<String, Integer> ownerMap = new HashMap<>();
-
             for (Owner owner : owners) {
                 LocalDate dateOfBirth = owner.getBirthDate();
                 if (dateOfBirth != null) {

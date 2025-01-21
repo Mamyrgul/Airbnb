@@ -75,7 +75,6 @@ public class HouseDaoImpl implements HouseDao {
         try {
             entityManager.getTransaction().begin();
 
-            // Находим дом по ID
             House house = entityManager.find(House.class, id);
             if (house == null) {
                 return "Error: House with ID " + id + " not found.";
