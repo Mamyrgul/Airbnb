@@ -23,9 +23,6 @@ public class Agency {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
 
-    @OneToMany(mappedBy = "agency", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
-    private List<Rent_Info> rentInfos;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Owner> owners;
 
@@ -35,13 +32,6 @@ public class Agency {
         this.address = address;
     }
 
-    public Agency(String name, String phoneNumber, Address address, List<Rent_Info> rentInfos) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.rentInfos = rentInfos;
-
-    }
 
     public Agency(String name, String phoneNumber) {
         this.name = name;

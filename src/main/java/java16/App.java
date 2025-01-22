@@ -332,27 +332,29 @@ public class App {
                     customerService.updateCustomer(customerId, updatedCustomer);
                     System.out.println("Клиент успешно обновлен.");
                     break;
-
                 case 15:
-                    System.out.print("Введите ID клиента: ");
-                    customerId = scannerLong.nextLong();
+                    try {
+                        System.out.print("Введите ID клиента: ");
+                        Long customerIdd = scannerLong.nextLong();
 
-                    System.out.print("Введите ID дома: ");
-                    houseId = scannerLong.nextLong();
+                        System.out.print("Введите ID агентства: ");
+                        Long agencyIdd = scannerLong.nextLong();
 
-                    System.out.print("Введите ID агентства: ");
-                    Long agencyIdd = scannerLong.nextLong();
+                        System.out.print("Введите дату заезда (yyyy-mm-dd): ");
+                        scannerStr.nextLine();
+                        String checkInString = scannerStr.nextLine();
+                        LocalDate checkIn = LocalDate.parse(checkInString);
 
-                    System.out.print("Введите дату заезда (yyyy-mm-dd): ");
-                    String checkInString = scannerStr.nextLine();
-                    LocalDate checkIn = LocalDate.parse(checkInString);
+                        System.out.print("Введите дату выезда (yyyy-mm-dd): ");
+                        String checkOutString = scannerStr.nextLine();
+                        LocalDate checkOut = LocalDate.parse(checkOutString);
 
-                    System.out.print("Введите дату выезда (yyyy-mm-dd): ");
-                    String checkOutString = scannerStr.nextLine();
-                    LocalDate checkOut = LocalDate.parse(checkOutString);
+                        customerService.arendHouse(customerIdd, agencyIdd, checkIn, checkOut);
 
-                    customerService.arendHouse(customerId, houseId, agencyIdd, checkIn, checkOut);
-                    System.out.println("Информация о аренде успешно добавлена.");
+                        System.out.println("Информация о аренде успешно добавлена.");
+                    } catch (Exception e) {
+                        System.out.println("Ошибка: " + e.getMessage());
+                    }
                     break;
 
                 case 16:
@@ -710,25 +712,35 @@ public class App {
                     }
                     break;
                 case 33:
-                    System.out.print("Введите дату начала (yyyy-mm-dd): ");
-                    String startDateString = scannerStr.nextLine();
-                    LocalDate startDate = LocalDate.parse(startDateString);
+                    try {
+                        System.out.print("Введите дату начала (yyyy-mm-dd): ");
+                        String startDateString = scannerStr.nextLine();
+                        LocalDate startDate = LocalDate.parse(startDateString);
 
-                    System.out.print("Введите дату окончания (yyyy-mm-dd): ");
-                    String endDateString = scannerStr.nextLine();
-                    LocalDate endDate = LocalDate.parse(endDateString);
+                        System.out.print("Введите дату окончания (yyyy-mm-dd): ");
+                        String endDateString = scannerStr.nextLine();
+                        LocalDate endDate = LocalDate.parse(endDateString);
 
-                    List<Rent_Info> rentInfos = rentInfoService.getRentInfosByDateRange(startDate, endDate);
-                    if (rentInfos.isEmpty()) {
-                        System.out.println("Нет информации по аренде в этот период.");
-                    } else {
-                        System.out.println("Информация по аренде между этими датами:");
-                        for (Rent_Info rentInfo : rentInfos) {
-                            System.out.println("ID аренды: " + rentInfo.getId() + ", ID клиента: " + rentInfo.getCustomer() +
-                                               ", ID дома: " + rentInfo.getHouse() + ", Дата заезда: " + rentInfo.getCheckIn() + ", Дата выезда: " + rentInfo.getCheckOut());
+                        List<Rent_Info> rentInfos = rentInfoService.getRentInfosByDateRange(startDate, endDate);
+
+                        if (rentInfos.isEmpty()) {
+                            System.out.println("Нет информации по аренде в этот период.");
+                        } else {
+                            System.out.println("Информация по аренде между этими датами:");
+                            for (Rent_Info rentInfo : rentInfos) {
+                                System.out.println(
+                                        "ID аренды: " + rentInfo.getId() +
+                                        ", ID клиента: " + (rentInfo.getCustomer() != null ? rentInfo.getCustomer().getId() : "Не указан") +
+                                        ", Дата заезда: " + rentInfo.getCheckIn() +
+                                        ", Дата выезда: " + rentInfo.getCheckOut()
+                                );
+                            }
                         }
+                    } catch (Exception e) {
+                        System.out.println("Произошла ошибка: " + e.getMessage());
                     }
                     break;
+
 
                 case 34:
                     System.out.print("Введите ID агентства: ");

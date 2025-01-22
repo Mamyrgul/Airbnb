@@ -23,8 +23,7 @@ public class Rent_Info {
     private Customer customer;
      @ManyToOne(cascade = CascadeType.ALL)
     private Owner owner;
-    @OneToOne(cascade = CascadeType.ALL)
-    private House house;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Agency agency;
 

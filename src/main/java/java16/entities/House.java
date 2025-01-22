@@ -34,7 +34,7 @@ public class House{
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Rent_Info> rentInfos;
 
     public House(Long id) {

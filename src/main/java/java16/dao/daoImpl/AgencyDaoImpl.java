@@ -69,11 +69,9 @@ public class AgencyDaoImpl implements AgencyDao {
             if (existingAgency == null) {
                 return false;
             }
-
             existingAgency.setName(agency.getName());
             existingAgency.setPhoneNumber(agency.getPhoneNumber());
             entityManager.getTransaction().commit();
-
             return true;
         } catch (Exception e) {
             if (entityManager != null && entityManager.getTransaction().isActive()) {
@@ -87,7 +85,6 @@ public class AgencyDaoImpl implements AgencyDao {
         }
     }
 
-
     public void deleteAgency(Long agencyId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
@@ -98,22 +95,25 @@ public class AgencyDaoImpl implements AgencyDao {
                 if (agency.getAddress() != null) {
                     entityManager.remove(agency.getAddress());
                 }
-                if (!agency.getRentInfos().isEmpty()) {
-                    agency.getRentInfos().forEach(entityManager::remove);
-                }
+
                 entityManager.remove(agency);
+                System.out.println("Agency с ID " + agencyId + " успешно удалено.");
             } else {
                 System.out.println("Agency с ID " + agencyId + " не найдено.");
             }
 
             entityManager.getTransaction().commit();
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            System.err.println("Ошибка при удалении Agency: " + e.getMessage());
             e.printStackTrace();
         } finally {
             entityManager.close();
         }
     }
+
 
 
     @Override

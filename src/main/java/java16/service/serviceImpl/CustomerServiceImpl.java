@@ -39,8 +39,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void arendHouse(Long customerId, Long houseId, Long agencyId, LocalDate checkIn, LocalDate checkOut) {
-        customerDao.arendHouse(customerId, houseId, agencyId, checkIn, checkOut);
+    public void arendHouse(Long customerId, Long agencyId, LocalDate checkIn, LocalDate checkOut) {
+        customerDao.arendHouse(customerId, agencyId, checkIn, checkOut);
     }
 
     @Override

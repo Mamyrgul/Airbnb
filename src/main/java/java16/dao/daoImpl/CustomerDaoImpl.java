@@ -70,6 +70,7 @@ public class CustomerDaoImpl implements CustomerDao {
             e.printStackTrace();
         }return null;
     }
+
     public void createCustomerWithRent(
             String firstName, String lastName, String email, LocalDate birthDate,
             Gender gender, String nationality, FamilyStatus familyStatus,
@@ -96,46 +97,45 @@ public class CustomerDaoImpl implements CustomerDao {
 
             Rent_Info rentInfo = new Rent_Info();
             rentInfo.setCustomer(customer);
-            rentInfo.setHouse(house);
             rentInfo.setCheckIn(rentStartDate);
             rentInfo.setCheckOut(rentEndDate);
+
             entityManager.persist(rentInfo);
 
             entityManager.getTransaction().commit();
             System.out.println("Customer with rent info successfully created.");
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new RuntimeException("Error creating customer with rent info: " + e.getMessage(), e);
+        } finally {
+            entityManager.close();
         }
     }
-
     @Override
-    public void arendHouse(Long customerId, Long houseId, Long agencyId, LocalDate checkIn, LocalDate checkOut) {
+    public void arendHouse(Long customerId, Long agencyId, LocalDate checkIn, LocalDate checkOut) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
 
             Customer customer = entityManager.find(Customer.class, customerId);
-            House house = entityManager.find(House.class, houseId);
-            Agency agency = entityManager.find(Agency.class, agencyId);
-
             if (customer == null) {
                 throw new IllegalArgumentException("Customer with ID " + customerId + " not found.");
             }
-            if (house == null) {
-                throw new IllegalArgumentException("House with ID " + houseId + " not found.");
-            }
+
+            Agency agency = entityManager.find(Agency.class, agencyId);
             if (agency == null) {
                 throw new IllegalArgumentException("Agency with ID " + agencyId + " not found.");
             }
+
             Rent_Info rentInfo = new Rent_Info();
             rentInfo.setCustomer(customer);
-            rentInfo.setHouse(house);
             rentInfo.setAgency(agency);
             rentInfo.setCheckIn(checkIn);
             rentInfo.setCheckOut(checkOut);
 
             entityManager.persist(rentInfo);
-            entityManager.merge(house);
 
             entityManager.getTransaction().commit();
             System.out.println("House rented successfully!");
@@ -148,6 +148,7 @@ public class CustomerDaoImpl implements CustomerDao {
             entityManager.close();
         }
     }
+
     @Override
     public boolean deleteCustomer(Long customerId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();

@@ -23,9 +23,6 @@ public class Address  {
     @OneToOne(mappedBy = "address",cascade = CascadeType.ALL)
     private Agency agency;
 
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
-    private House house;
-
     public Address(String city, String region, String street, Agency agency) {
         this.city = city;
         this.region = region;

@@ -21,7 +21,7 @@ public interface CustomerDao {
     void createCustomerWithRent( String firstName, String lastName, String email, LocalDate birthDate,
                                  Gender gender, String nationality, FamilyStatus familyStatus,
                                  Long houseId, LocalDate rentStartDate, LocalDate rentEndDate);
-    void arendHouse(Long customerId, Long houseId,Long agencyId,LocalDate checkIn,LocalDate checkOut);
+    void arendHouse(Long customerId, Long agencyId, LocalDate checkIn, LocalDate checkOut);
 
     boolean deleteCustomer(Long customerId);
 }

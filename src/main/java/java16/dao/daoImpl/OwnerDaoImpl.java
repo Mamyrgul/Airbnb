@@ -180,11 +180,8 @@ public class OwnerDaoImpl implements OwnerDao {
             if (owners == null || owners.isEmpty()) {
                 throw new RuntimeException("No owners found for the agency with ID: " + agencyId);
             }
-
             Owner owner = owners.get(0);
-
             entityManager.getTransaction().commit();
-
             return owner;
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
